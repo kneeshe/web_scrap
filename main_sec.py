@@ -43,19 +43,20 @@ def valida_cpf():
 
 ##validador de email
 def valida_email():
-    padrao_email = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+    padrao_email = re.compile(r"([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+")
     email = input("Digite seu email: ")
     while email != True:
       if re.fullmatch(padrao_email, email):
         return email
       else:
-        print("Email inválido. Por favor, tente novamente")
-        email = input("Por favor, digite novamente seu email: ")
+          print("Email inválido. Por favor, tente novamente")
+          email = input("Por favor, digite novamente seu email: ")
 
 
 ##validador de telefone
 def valida_fone():
-  re_fone = re.compile(r"^\s*(\d{2}|\d{0})[-. ]?(\d{5}|\d{4})[-. ]?(\d{4})[-. ]?\s*$")
+  re_fone = re.compile(r'^\s*(\d{2}|\d{0})[-. ]?(\d{5}|\d{4})[-. ]?(\d{4})[-. ]?\s*$')
+    #re_fone = re.compile(padrao_fone)
   fone = input("Digite seu telefone: ")
   while fone != True:
     if re.fullmatch(re_fone, fone):
@@ -67,8 +68,7 @@ def valida_fone():
 ##função de scrap
 def scrap_site():
 
-  url_site = "https://www.carrefour.com.br/busca/Teclado%20Yamaha%20PSR-E473"
-  #url_pag = url_site + "ecommerce/"
+  url_site = "https://www.scrapingcourse.com/ecommerce/"
   cabecalho = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:132.0) Gecko/20100101 Firefox/132.0"}
   proxies = {
       "http": "http://8c5906b99fbd1c0bcd0f916d545c565a6dd32b83755a2d1e75485e538813bb7d9a2ce4dde39a38f3a25269695fa58faa5c097c2615df5d00c25424f2dc3b72ae5ff1c737c538ba6671dc8837dc04fc4c:w52fbawor7mn@proxy.toolip.io:31111",
@@ -79,9 +79,9 @@ def scrap_site():
   print(conexao)
 
   soup = BeautifulSoup(conexao.text, "html.parser")
-  nome_prod = soup.find_all("h2", {"class": "text-xs leading-4 text-[#333] text-left my-3 truncate-text h-12"})
-  tag_preco = soup.find_all("span", {"class": "text-base font-bold text-primary"})
-  link_prod = soup.find_all('a', {"class": "border rounded-lg border-[#f2f2f2] p-2 cursor-pointer overflow-hidden hover:shadow-md undefined flex flex-col gap-4"}, href=True)
+  nome_prod = soup.find_all("h2", {"class": "product-name woocommerce-loop-product__title"})
+  tag_preco = soup.find_all("span", {"class": "product-price woocommerce-Price-amount amount"})
+  link_prod = soup.find_all('a', {"class": "button product_type_variable"}, href=True)
 
   nomes = [k.text for k in nome_prod]
   valores = [i.text for i in tag_preco]
