@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 ##validador de cpf
 def valida_cpf():
-  cpf = str(input("Digite um CPF para ser validado ao lado. >>>"))
+  cpf = str(input("Digite um CPF válido (com pontos e traço): "))
 
   #Retira apenas os dígitos do CPF, ignorando os caracteres especiais
   numeros = [int(digito) for digito in cpf if digito.isdigit()]
@@ -15,31 +15,35 @@ def valida_cpf():
   quant_digitos = False
   validacao1 = False
   validacao2 = False
-
-  #Verifica a estrutura do CPF (111.222.333-44)
-  if re.match(r'\d{3}\.\d{3}\.\d{3}-\d{2}', cpf):
-      formatacao = True
-
-  if len(numeros) == 11:
-      quant_digitos = True
-
-      soma_produtos = sum(a*b for a, b in zip (numeros[0:9], range (10, 1, -1)))
-      digito_esperado = (soma_produtos * 10 % 11) % 10
-      if numeros[9] == digito_esperado:
-          validacao1 = True
-
-      soma_produtos1 = sum(a*b for a, b in zip(numeros [0:10], range (11, 1, -1)))
-      digito_esperado1 = (soma_produtos1 *10 % 11) % 10
-      if numeros[10] == digito_esperado1:
-          validacao2 = True
-
-      if quant_digitos == True and formatacao == True and validacao1 == True and validacao2 == True:
-          print(f"O CPF {cpf} é válido.")
+  
+  while cpf != True:
+      #Verifica a estrutura do CPF (111.222.333-44)
+      if re.match(r'\d{3}\.\d{3}\.\d{3}-\d{2}', cpf):
+          formatacao = True
+          return cpf  
+    
+      if len(numeros) == 11:
+          quant_digitos = True
+    
+          soma_produtos = sum(a*b for a, b in zip (numeros[0:9], range (10, 1, -1)))
+          digito_esperado = (soma_produtos * 10 % 11) % 10
+          if numeros[9] == digito_esperado:
+              validacao1 = True
+    
+          soma_produtos1 = sum(a*b for a, b in zip(numeros [0:10], range (11, 1, -1)))
+          digito_esperado1 = (soma_produtos1 *10 % 11) % 10
+          if numeros[10] == digito_esperado1:
+              validacao2 = True
+    
+          if quant_digitos == True and formatacao == True and validacao1 == True and validacao2 == True:
+              return cpf
+          else:
+              print(f"O CPF {cpf} não é válido... Tente outro CPF...")
+              cpf = str(input("Digite um CPF válido (com pontos e traço): "))
+    
       else:
           print(f"O CPF {cpf} não é válido... Tente outro CPF...")
-
-  else:
-      print(print(f"O CPF {cpf} não é válido... Tente outro CPF..."))
+          cpf = str(input("Digite um CPF válido (com pontos e traço): "))
 
 ##validador de email
 def valida_email():
@@ -56,7 +60,6 @@ def valida_email():
 ##validador de telefone
 def valida_fone():
   re_fone = re.compile(r'^\s*(\d{2}|\d{0})[-. ]?(\d{5}|\d{4})[-. ]?(\d{4})[-. ]?\s*$')
-    #re_fone = re.compile(padrao_fone)
   fone = input("Digite seu telefone: ")
   while fone != True:
     if re.fullmatch(re_fone, fone):
@@ -95,13 +98,13 @@ def scrap_site():
 ### função principal
 nome_user = input("Digite seu nome: ")
 
-#cpf_user = valida_cpf()
+cpf_user = valida_cpf()
 
 email_user = valida_email()
 
 fone_user = valida_fone()
 
 
-print(f"Seu nome é: {nome_user}\nSeu email é: {email_user}\nSeu telefone é: {fone_user}")
+print(f"Seu nome é: {nome_user}\nSeu cpf é {cpf_user}\nSeu email é: {email_user}\nSeu telefone é: {fone_user}")
 
 scrap_site()

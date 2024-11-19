@@ -20,6 +20,7 @@ def valida_cpf():
       #Verifica a estrutura do CPF (111.222.333-44)
       if re.match(r'\d{3}\.\d{3}\.\d{3}-\d{2}', cpf):
           formatacao = True
+          return cpf  
     
       if len(numeros) == 11:
           quant_digitos = True
@@ -98,13 +99,13 @@ def scrap_site():
 ### função principal
 nome_user = input("Digite seu nome: ")
 
-#cpf_user = valida_cpf()
+cpf_user = valida_cpf()
 
 email_user = valida_email()
 
 fone_user = valida_fone()
 
 
-print(f"Seu nome é: {nome_user}\nSeu email é: {email_user}\nSeu telefone é: {fone_user}")
+print(f"Seu nome é: {nome_user}\nSeu cpf é {cpf_user}\nSeu email é: {email_user}\nSeu telefone é: {fone_user}")
 
 scrap_site()
